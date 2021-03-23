@@ -1,1 +1,3 @@
 group_project/lib/db.js
+group_project/node_modules
+group_project/.env
