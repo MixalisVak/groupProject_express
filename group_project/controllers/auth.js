@@ -5,7 +5,7 @@ const { promisify } = require('util');
 const { Console } = require('console');
 
 
-exports.login = async (req, res) => {
+async function login(req, res){
     try {
         const { emailAddress, password} = req.body;
 
@@ -48,16 +48,16 @@ exports.login = async (req, res) => {
     }
 }
 
-exports.register = (req, res) => {
-    
+
+async function register(req, res){
     const { first_name,
-            last_name,
-            emailAddress,
-            phoneNumber,
-            country,
-            password,
-            confirm_pass
-        } = req.body
+        last_name,
+        emailAddress,
+        phoneNumber,
+        country,
+        password,
+        confirm_pass
+    } = req.body
 
     dbconnection.query('SELECT emailAddress FROM user WHERE emailAddress = ?', [emailAddress], async (err, results) => {
         if (err) {
@@ -84,16 +84,15 @@ exports.register = (req, res) => {
                 console.log(err)
             } else{
                 console.log(results)
-                return res.render('signup', {message: 'User registered'})
+                res.status(200).redirect('/login')
             }
         })
 
     });
-
 }
 
 
-exports.isLoggedIn = async (req, res, next) => {
+async function isLoggedIn(req, res, next){
     console.log(req.cookies)
     if(req.cookies.jwt){
         try{
@@ -116,5 +115,22 @@ exports.isLoggedIn = async (req, res, next) => {
     }else{
         next();
     }
+}
 
+
+async function logout(req, res){
+    res.cookie('jwt', 'logout', {
+        expires: new Date(Date.now() + 2*1000),
+        httpOnly: true
+    });
+  
+    res.status(200).redirect('/')
+}
+
+
+module.exports = {
+    login,
+    register,
+    isLoggedIn,
+    logout
 }

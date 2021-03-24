@@ -10,12 +10,23 @@ router.get('/', (req, res) => {
 
 // Enter to login page
 router.get('/login', (req, res) => {
-  res.render('login', {message: ''});
+    console.log(req.cookies.jwt)
+    if(req.cookies.jwt){
+        res.redirect('/')
+    }else{
+        res.render('login', {message: ''});
+    }
+    
 });
 
 // Enter to signup page
 router.get('/signup',(req, res) => {
-    res.render('signup', {message: ''});
+    if(req.cookies.jwt){
+        res.redirect('/')
+    }else{
+        res.render('signup', {message: ''});
+    }
+    
 });
 
 router.get('/profile', authController.isLoggedIn, (req, res) => {
