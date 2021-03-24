@@ -59,36 +59,38 @@ async function register(req, res){
         confirm_pass
     } = req.body
 
-    dbconnection.query('SELECT emailAddress FROM user WHERE emailAddress = ?', [emailAddress], async (err, results) => {
-        if (err) {
-            console.log(err)
-        }
-        if (results.length > 0){
-            return res.render('signup', {message: 'That email is already in use'})
-        }
-        else if( password !== confirm_pass){
-            return res.render('signup', {message: 'Passwords do not match'})
-        }
-        
-        let hashedPassword = await bcrypt.hash(password, 8);
-        const query = `INSERT INTO user(first_name, last_name, emailAddress, country, phone_number, password  ) VALUES( '${first_name}',
-                        '${last_name}',
-                        '${emailAddress}',
-                        '${country}',
-                        '${phoneNumber}',
-                        '${hashedPassword}'
-        )`;
-        dbconnection.query(query,  (err, results) => {
-
-            if (err){
+    if (password !== confirm_pass){
+        return res.render('signup', {message: 'Passwords do not match'})
+    }else{
+        dbconnection.query('SELECT emailAddress FROM user WHERE emailAddress = ?', [emailAddress], async (err, results) => {
+            if (err) {
                 console.log(err)
-            } else{
-                console.log(results)
-                res.status(200).redirect('/login')
             }
-        })
-
-    });
+            if (results.length > 0){
+                return res.render('signup', {message: 'That email is already in use'})
+            }
+            
+            let hashedPassword = await bcrypt.hash(password, 8);
+            const query = `INSERT INTO user(first_name, last_name, emailAddress, country, phone_number, password  ) VALUES( '${first_name}',
+                            '${last_name}',
+                            '${emailAddress}',
+                            '${country}',
+                            '${phoneNumber}',
+                            '${hashedPassword}'
+            )`;
+            dbconnection.query(query,  (err, results) => {
+    
+                if (err){
+                    console.log(err)
+                } else{
+                    console.log(results)
+                    res.status(200).redirect('/login')
+                }
+            })
+    
+        });
+    }
+    
 }
 
 
