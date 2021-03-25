@@ -1,19 +1,32 @@
+
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Login Page</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1>Login Page</h1>
-    <div id="login-form">
-      <h4><%= message %></h4>
-        <form action="auth/login" method="POST">
-            Email: <input type="email" name="emailAddress" id=""><br>
-            Password: <input type="password" name="password" id=""><br>
-            <button type="submit">Login</button>
-        </form>
-    </div>
-    <a href="/signup">Register</a>
-  </body>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+</head>
+
+<body>
+    <header>
+        <h2>Welcome to the Fundain</h2>
+        <h3>Sign In</h3>
+    </header>
+    <div id="animation">ANIMATION</div>
+    <form action="auth/login" method="post">
+        <input style="margin-bottom: 10px; width: 280px;" name="emailAddress" type="email" class="fields" placeholder="Email" required><br>
+        <input style="margin-bottom: 10px; width: 280px;" name="password" type="password" class="fields" placeholder="Password"
+            required><br>
+
+        <button type="submit">Sign In</button>
+    </form>
+    <p id="new" class="links"><a href="/signup">Create new Account</a></p>
+    <p id="forget" class="links"><a href="">Did you forget your Password?</a></p>
+    <div><%=message%></div>
+
+</body>
+
 </html>

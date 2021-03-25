@@ -4,7 +4,9 @@ const authController = require('../controllers/auth')
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  res.render('index', { title: 'Express' });
+    var fullUrl = req.protocol + '://' + req.get('host');
+    console.log('fullUrl', fullUrl)
+    res.render('index', { Url: fullUrl });
 });
   
 

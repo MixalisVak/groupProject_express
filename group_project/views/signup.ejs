@@ -1,33 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="img/fundain_logo.png">
+    <link rel="stylesheet" href="stylesheets/flex2.css" />
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Chango&family=Cormorant+Unicase:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="container">
+      <header class="blurGlass">
+        <h1>Welcome To The Fundain!</h1>
+      </header>
+      <div class="main_container">
+        <nav>
+          <ul>
+            <li><a href="">What is Fundain</a></li>
+            <li><a href="">What they said about us</a></li>
+            <li><a href="">contact</a></li>
+          </ul>
+        </nav>
+        <main>
+          <form id="form" action="auth/signup" method="POST">
 
-<h2>Sign up page</h2>
-
-<form action="/auth/signup" method="POST">
-    <label for="fname">First name:</label><br>
-    <input type="text" id="fname" name="first_name" value="John"><br>
-
-    <label for="lname">Last name:</label><br>
-    <input type="text" id="lname" name="last_name" value="Doe"><br>
-
-    <label for="country">Country:</label><br>
-    <input type="text" id="country" name="country" value="Greece"><br>
-
-    <label for="emailAddress">Email:</label><br>
-    <input type="email" id="emailAddress" name="emailAddress"><br>
-
-    <label for="phoneNumber">Phone number</label><br>
-    <input type="text" id="phoneNumber" name="phoneNumber"><br>
-
-    <label for="password">Password</label><br>
-    <input type="password" id="password" name="password"><br>
-
-    <label for="confirm_pass">Confirm Password</label><br>
-    <input type="password" id="confirm_pass" name="confirm_pass"><br>
-
-    <input type="submit" value="Submit">
-
-    
-    <%if (message) { %>
-        <h4><%= message %></h4>
-        <h4 onload="alert('<%= message %>')"></h4>
-    <% } %>
-</form> 
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+              <path fill="#1bc7e4ff" fill-opacity="1" d="M0,32L21.8,42.7C43.6,53,87,75,131,90.7C174.5,107,218,117,262,101.3C305.5,85,349,43,393,26.7C436.4,11,480,21,524,74.7C567.3,128,611,224,655,272C698.2,320,742,320,785,309.3C829.1,299,873,277,916,229.3C960,181,1004,107,1047,80C1090.9,53,1135,75,1178,101.3C1221.8,128,1265,160,1309,176C1352.7,192,1396,192,1418,192L1440,192L1440,0L1418.2,0C1396.4,0,1353,0,1309,0C1265.5,0,1222,0,1178,0C1134.5,0,1091,0,1047,0C1003.6,0,960,0,916,0C872.7,0,829,0,785,0C741.8,0,698,0,655,0C610.9,0,567,0,524,0C480,0,436,0,393,0C349.1,0,305,0,262,0C218.2,0,175,0,131,0C87.3,0,44,0,22,0L0,0Z"></path>
+            </svg>
+              <img src="./fundain_logo.png" alt="" class="Logo_texture" width="80%">
+              <div><i class="fa fa-address-card-o" aria-hidden="true"></i>
+            <input style="margin-bottom: 10px; width: 280px;" class="fields field1" type="text" name="first_name" placeholder="First Name"
+                required >  <br>
+              </div>
+                <div><i class="fa fa-address-card-o" aria-hidden="true"></i>
+            <input style="margin-bottom: 10px; width: 280px;" class="fields field2" type="text" name="last_name" placeholder="Last Name"
+                required><br>
+              </div>
+                <div><i class="fa fa-thumb-tack" aria-hidden="true"></i>
+            <input style="margin-bottom: 10px; width: 280px;" class="fields field3" type="text"  name="country" placeholder="Country" required><br>
+          </div>
+            <div><i class="fa fa-mobile" aria-hidden="true"></i>
+            <input style="margin-bottom: 10px; width: 280px;" class="fields field4" type="tel"  name="phoneNumber" placeholder="Phone Number"
+                required><br>
+              </div>
+                <div><i class="fa fa-envelope-o" aria-hidden="true"></i>
+            <input style="margin-bottom: 10px; width: 280px;" class="fields field5" type="email" name="emailAddress" placeholder="Email" required><br>
+          </div>
+            <div><i class="fa fa-unlock-alt" aria-hidden="true"></i>
+            <input style="margin-bottom: 10px; width: 280px;" class="fields field6" type="password" name="password" placeholder="Password" 
+                required> <br>
+              </div>
+                <div><i class="fa fa-unlock-alt" aria-hidden="true"></i>
+            <input style="margin-bottom: 10px; width: 280px;" class="fields field7" type="password" name="confirm_pass" placeholder="Confirm Password"
+                required><br>
+              </div>
+                <div>
+            <input type="checkbox"> <span style="color:rgba(255, 255, 255, 0.61)">I agree with the <a href="">Terms</a></span><br>
+          </div>
+            <button style="margin-top: 15px;" class="fields button1" type="submit" >Register</button>
+            <a href=""><p >Already a member?</p></a>
+        </form>
+        </main>
+        <aside>
+          <ul>
+            <li>SignIn</li>
+            <li id="signUP" >SignUp</li>
+          </ul>
+        </aside>
+      </div>
+      <footer></footer>
+    </div>
+  </body>
+</html>
