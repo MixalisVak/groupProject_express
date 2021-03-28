@@ -16,7 +16,7 @@ async function login(req, res){
         }
 
         dbconnection.query('SELECT * FROM user WHERE emailAddress = ?', [emailAddress], async (err, results) => {
-            console.log(results)
+            //console.log(results)
             if(!results || !(await bcrypt.compare(password, results[0].password))){
                 res.status(401).render('login', {
                     message: 'Email or Password is incorrect'
@@ -25,9 +25,10 @@ async function login(req, res){
                 const id = results[0].user_id;
 
                 const token = jwt.sign({ id: id}, process.env.JWT_SECRET, {
+                    
                     expiresIn: process.env.JWT_EXPIRES_IN
                 });
-                
+
                 console.log("The token is: ", token)
 
                 const cookieOptions = {
@@ -93,6 +94,30 @@ async function register(req, res){
     
 }
 
+async function donation(req, res){
+    const { 
+        emailAddress,
+        amountMoney
+    } = req.body
+
+
+    dbconnection.query('SELECT * FROM user WHERE emailAddress = ?', [emailAddress], async (err, results) => {
+        let user_id = results[0].user_id;
+        const query = `INSERT INTO donation(amount, user_id, charity_id) VALUES( ${amountMoney},'${user_id}','${5}')`;
+
+        dbconnection.query(query,  (err, results) => {
+
+        if (err){
+            console.log(err)
+        } else{
+            console.log(results)
+            res.status(200).redirect('/')
+        }
+        })
+    })
+    
+}
+
 
 async function isLoggedIn(req, res, next){
     console.log(req.cookies)
@@ -134,5 +159,6 @@ module.exports = {
     login,
     register,
     isLoggedIn,
-    logout
+    logout,
+    donation
 }
