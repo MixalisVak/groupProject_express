@@ -23,12 +23,10 @@ async function login(req, res){
                 })
             }else {
                 const id = results[0].user_id;
-
+                
                 const token = jwt.sign({ id: id}, process.env.JWT_SECRET, {
-                    
                     expiresIn: process.env.JWT_EXPIRES_IN
                 });
-
                 console.log("The token is: ", token)
 
                 const cookieOptions = {

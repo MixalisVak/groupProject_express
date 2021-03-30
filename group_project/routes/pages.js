@@ -32,6 +32,7 @@ router.get('/signup',(req, res) => {
 });
 
 router.get('/profile', authController.isLoggedIn, (req, res) => {
+    console.log('req', req)
     if( req.user){
         res.render('profile', {
             user: req.user
