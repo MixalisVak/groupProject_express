@@ -27,7 +27,7 @@ async function login(req, res){
                 const token = jwt.sign({ id: id}, process.env.JWT_SECRET, {
                     expiresIn: process.env.JWT_EXPIRES_IN
                 });
-                console.log("The token is: ", token)
+
 
                 const cookieOptions = {
                     expires: new Date(
