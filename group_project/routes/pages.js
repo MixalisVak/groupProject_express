@@ -5,23 +5,29 @@ const authController = require('../controllers/auth')
 /* GET home page. */
 router.get('/', (req, res) => {
     var fullUrl = req.protocol + '://' + req.get('host');
-    console.log('fullUrl', fullUrl)
+    
     res.render('index', { Url: fullUrl });
 });
   
 
-// Enter to login page
+// Router to see the login page. 
 router.get('/login', (req, res) => {
     console.log(req.cookies.jwt)
     if(req.cookies.jwt){
         res.redirect('/')
     }else{
-        res.render('login', {message: ''});
+        res.render('login', {message: '', errors: ''});
     }
     
 });
 
-// Enter to signup page
+// Router when you login with your credentials. The form sends the password and
+// the email address here and the authController takes control.
+router.post('/login', authController.login)
+
+
+
+// Router to see the sign up page. If you are already logged in you can not enter this page.
 router.get('/signup',(req, res) => {
     if(req.cookies.jwt){
         res.redirect('/')
@@ -31,8 +37,15 @@ router.get('/signup',(req, res) => {
     
 });
 
+// Router when you sign up with your credentials. The form sends the password and
+// the email address here and the authController takes control.
+router.post('/signup', authController.register)
+
+
+
+// Profile page for testing.
 router.get('/profile', authController.isLoggedIn, (req, res) => {
-    console.log('req', req)
+    
     if( req.user){
         res.render('profile', {
             user: req.user
@@ -45,4 +58,5 @@ router.get('/profile', authController.isLoggedIn, (req, res) => {
 });
 
 
+// Exporting the router.
 module.exports = router;

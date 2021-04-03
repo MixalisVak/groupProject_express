@@ -79,9 +79,10 @@ router.post('/paypal', (req, res) => {
       });
 })
 
-// Paypal payment
+// If the transaction from the payment is succesful you will be redirected here.
+// User's credentials with donation and id will be take place here.
 router.get('/success', (req, res) => {
-    console.log('reqSuc',req)
+    
     
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;

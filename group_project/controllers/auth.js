@@ -16,7 +16,7 @@ async function login(req, res){
         }
 
         dbconnection.query('SELECT * FROM user WHERE emailAddress = ?', [emailAddress], async (err, results) => {
-            //console.log(results)
+            
             if(!results || !(await bcrypt.compare(password, results[0].password))){
                 res.status(401).render('login', {
                     message: 'Email or Password is incorrect'
@@ -82,7 +82,7 @@ async function register(req, res){
                 if (err){
                     console.log(err)
                 } else{
-                    console.log(results)
+                    
                     res.status(200).redirect('/login')
                 }
             })
@@ -124,7 +124,7 @@ async function isLoggedIn(req, res, next){
             const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET)
             console.log('decoded',decoded)
             dbconnection.query('SELECT * FROM user WHERE user_id = ?', [decoded.id], (err, result)=>{
-                console.log(result)
+               
 
                 if(!result){
                     return next();
