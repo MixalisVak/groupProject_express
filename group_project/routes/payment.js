@@ -45,8 +45,8 @@ router.post('/paypal', (req, res) => {
             "payment_method": "paypal"
         },
         "redirect_urls": {
-            "return_url": `http://localhost:3000/payment/success/?amount=${amountDonation}&emailAddress=${emailAddress}`,
-            "cancel_url": "http://localhost:3000/payment/cancel"
+            "return_url": `http://localhost:1058/payment/success/?amount=${amountDonation}&emailAddress=${emailAddress}`,
+            "cancel_url": "http://localhost:1058/payment/cancel"
         },
         "transactions": [{
             "item_list": {
@@ -91,7 +91,7 @@ router.get('/success', (req, res) => {
 
     dbconnection.query('SELECT * FROM user WHERE emailAddress = ?', [emailAddress], async (err, results) => {
         let user_id = results[0].user_id;
-        const query = `INSERT INTO donation(amount, user_id, charity_id) VALUES( ${donation},'${user_id}','${5}')`;
+        const query = `INSERT INTO donation(amount, user_id, group_id) VALUES( ${donation},'${user_id}','${4}')`;
 
         dbconnection.query(query,  (err, results) => {
 

@@ -6,7 +6,7 @@ const authController = require('../controllers/auth')
 router.get('/', (req, res) => {
     var fullUrl = req.protocol + '://' + req.get('host');
     
-    res.render('index', { Url: fullUrl });
+    res.render('index', { Url: fullUrl, message: '' });
 });
   
 
@@ -46,13 +46,18 @@ router.post('/signup', authController.register)
 // Profile page for testing.
 router.get('/profile', authController.isLoggedIn, (req, res) => {
     
+    // Check if user is logged in.
     if( req.user){
-        res.render('profile', {
-            user: req.user
-        });
-
+        //Check if user is admin.
+        if (req.user.user_role === 'admin'){
+            res.render('profile', {
+                user: req.user
+            });
+        } else{
+            res.redirect('/login');
+        }
     }else{
-        res.redirect('/login');
+        res.render('index', {message: "Only admins have access to this page.", Url: ''})
     }
     
 });

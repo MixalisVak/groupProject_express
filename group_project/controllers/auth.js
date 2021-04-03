@@ -8,7 +8,7 @@ const { Console } = require('console');
 async function login(req, res){
     try {
         const { emailAddress, password} = req.body;
-
+        
         if(!emailAddress || !password){
             return res.status(400).render('login', {
                 message: 'Please provide an email and password'
@@ -17,7 +17,7 @@ async function login(req, res){
 
         dbconnection.query('SELECT * FROM user WHERE emailAddress = ?', [emailAddress], async (err, results) => {
             
-            if(!results || !(await bcrypt.compare(password, results[0].password))){
+            if(results.length ===  0 || !(await bcrypt.compare(password, results[0].password))){
                 res.status(401).render('login', {
                     message: 'Email or Password is incorrect'
                 })
@@ -82,7 +82,7 @@ async function register(req, res){
                 if (err){
                     console.log(err)
                 } else{
-                    
+                    console.log(results)
                     res.status(200).redirect('/login')
                 }
             })
@@ -101,7 +101,7 @@ async function donation(req, res){
 
     dbconnection.query('SELECT * FROM user WHERE emailAddress = ?', [emailAddress], async (err, results) => {
         let user_id = results[0].user_id;
-        const query = `INSERT INTO donation(amount, user_id, charity_id) VALUES( ${amountMoney},'${user_id}','${5}')`;
+        const query = `INSERT INTO donation(amount, user_id, group_id) VALUES( ${amountMoney},'${user_id}','${4}')`;
 
         dbconnection.query(query,  (err, results) => {
 
@@ -122,9 +122,7 @@ async function isLoggedIn(req, res, next){
     if(req.cookies.jwt){
         try{
             const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET)
-            console.log('decoded',decoded)
             dbconnection.query('SELECT * FROM user WHERE user_id = ?', [decoded.id], (err, result)=>{
-               
 
                 if(!result){
                     return next();
