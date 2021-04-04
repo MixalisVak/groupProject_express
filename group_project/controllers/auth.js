@@ -24,17 +24,10 @@ async function login(req, res){
             }else {
                 const id = results[0].user_id;
                 
-                const token = jwt.sign({ id: id}, process.env.JWT_SECRET, {
-                    expiresIn: process.env.JWT_EXPIRES_IN
-                });
+                const token = jwt.sign({ id: id}, process.env.JWT_SECRET);
 
 
-                const cookieOptions = {
-                    expires: new Date(
-                        Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-                    ),
-                    httpOnly: true
-                }
+                const cookieOptions = { httpOnly: true }
 
                 res.cookie('jwt', token, cookieOptions);
                 res.status(200).redirect("/");
