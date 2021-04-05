@@ -54,10 +54,11 @@ router.get('/profile', authController.isLoggedIn, (req, res) => {
                 user: req.user
             });
         } else{
-            res.redirect('/login');
+            res.render('index', {message: "Only admins have access to this page.", Url: ''})
         }
     }else{
-        res.render('index', {message: "Only admins have access to this page.", Url: ''})
+        
+        res.redirect('/login');
     }
     
 });
