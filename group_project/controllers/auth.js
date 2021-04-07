@@ -3,6 +3,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { promisify } = require('util');
 const { Console } = require('console');
+const mailgun = require("mailgun-js");
+const DOMAIN = process.env.DOMAIN;
+const mg = mailgun({apiKey: process.env.MAILGUN_APIKEY, domain: DOMAIN});
 
 
 async function login(req, res){
@@ -75,6 +78,23 @@ async function register(req, res){
                 if (err){
                     console.log(err)
                 } else{
+                    const token = jwt.sign({ emailAddress: emailAddress}, process.env.JWT_ACC_ACTIVATE, {expiresIn: '10m'});
+
+                    const data = {
+                        from: 'noreply@hello.com',
+                        to: 'email',
+                        subject: 'Account Activation Link',
+                        html: `
+                            <h2>Click here to activate your account</h2>
+                            <p>${process.env.CLIENT_URL}/authentication/activate/${token}</p>
+                        `
+                    };
+                    mg.messages().send(data, function (error, body) {
+                        if (error){
+                            console.log(error)
+                        }
+                        // Change email status to Verified.
+                    });
                     console.log(results)
                     res.status(200).redirect('/login')
                 }
@@ -84,6 +104,37 @@ async function register(req, res){
     }
     
 }
+
+
+function activateAccount(req, res){
+    console.log('reqqq', req.params.token)
+    const token = req.params.token;
+    console.log('token1',token)
+    if (token){
+        jwt.verify(token, process.env.JWT_ACC_ACTIVATE, function(err, decodedToken){
+            if(err){
+                return res.status(400).json({error: 'Incorrect or Expired link.'})
+            }
+            const {emailAddress} = decodedToken
+            console.log(emailAddress)
+            const query = `UPDATE user SET emailStatus = 'verified' WHERE emailAddress = '${emailAddress}'`
+
+            dbconnection.query(query,  (err, results) => {
+
+            if (err){
+                console.log(err)
+            } else{
+                console.log(results)
+                res.status(200).redirect('/login')
+            }
+            })
+        
+        })
+    }else{
+        console.log('Errrror')
+    }
+}
+
 
 async function donation(req, res){
     const { 
@@ -149,5 +200,6 @@ module.exports = {
     register,
     isLoggedIn,
     logout,
-    donation
+    donation,
+    activateAccount
 }

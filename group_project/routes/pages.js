@@ -64,5 +64,9 @@ router.get('/profile', authController.isLoggedIn, (req, res) => {
 });
 
 
+router.get('/authentication/activate/:token', authController.activateAccount, (req, res) => {
+    
+})
+
 // Exporting the router.
 module.exports = router;
