@@ -82,7 +82,7 @@ async function register(req, res){
 
                     const data = {
                         from: 'noreply@hello.com',
-                        to: 'email',
+                        to: process.env.EMAILTOSEND,
                         subject: 'Account Activation Link',
                         html: `
                             <h2>Click here to activate your account</h2>
@@ -162,7 +162,6 @@ async function donation(req, res){
 
 
 async function isLoggedIn(req, res, next){
-    console.log(req.cookies)
     if(req.cookies.jwt){
         try{
             const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET)
@@ -180,18 +179,18 @@ async function isLoggedIn(req, res, next){
             return next();
         }
     }else{
-        next();
+        next()
     }
 }
 
 
 async function logout(req, res){
     res.cookie('jwt', 'logout', {
-        expires: new Date(Date.now() + 2*1000),
+        expires: new Date(Date.now()),
         httpOnly: true
     });
   
-    res.status(200).redirect('/')
+    res.status(200).redirect('/login')
 }
 
 
